@@ -8,19 +8,19 @@ var Word = React.createClass({
     },
     searchWord: function (e) {
         var name = e.target.value;
-        if(!name.trim()){
-           return  this.setState({
-               name: dataName
-           })
+        if (!name.trim()) {
+            return this.setState({
+                name: dataName
+            })
         }
         this.setState({
             name: name
         });
     },
     render: function () {
-        return(
+        return (
             <div>
-                <input type="text"  onChange={this.searchWord}/>
+                <input type="text" onChange={this.searchWord}/>
                 <h1>Hello, {this.state.name} !</h1>
             </div>
 
