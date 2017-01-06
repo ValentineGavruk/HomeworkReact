@@ -1,0 +1,14 @@
+table {
+    position: absolute;
+    border: 1px solid black;
+    width: 500px;
+    left: 35%;
+}
+
+th {
+    border-right: 1px solid black;
+    border-bottom:  1px solid black;
+}
+td {
+    border-right: 1px solid black;
+}
