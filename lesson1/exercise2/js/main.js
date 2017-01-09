@@ -1,23 +1,21 @@
-var dataName = 'stranger';
-
-var Word = React.createClass({
-    getInitialState: function () {
-        return {
-            name: dataName
-        };
-    },
-    searchWord: function (e) {
-        var name = e.target.value;
+class Word extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {notes: []};
+        this.searchWord = this.searchWord.bind(this);
+    }
+    searchWord (e) {
+        const name = e.target.value;
         if (!name.trim()) {
             return this.setState({
-                name: dataName
+                name: 'stranger'
             })
         }
         this.setState({
             name: name
         });
-    },
-    render: function () {
+    }
+    render () {
         return (
             <div>
                 <input type="text" onChange={this.searchWord}/>
@@ -26,7 +24,7 @@ var Word = React.createClass({
 
         )
     }
-});
+}
 
 
 ReactDOM.render(

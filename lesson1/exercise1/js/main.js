@@ -27,7 +27,7 @@ class Article extends React.Component{
         </table>
         )
     }
-};
+}
 
 ReactDOM.render(
     <Article/>,
