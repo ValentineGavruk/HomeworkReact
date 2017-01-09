@@ -1,11 +1,11 @@
-var Search = React.createClass({
-    componentDidMount: function () {
+class Search extends React.Component{
+    componentDidMount() {
         this.AddClassActive()
-    },
-    componentDidUpdate: function () {
+    }
+    componentDidUpdate() {
         this.AddClassActive();
-    },
-    render: function () {
+    }
+    render() {
         return (
             <div className="search-list" ref="mainSearch">
                 <span data-value="all" onClick={this.props.onSearchNotes} ref="all">Все </span>
@@ -13,9 +13,9 @@ var Search = React.createClass({
                 <span data-value="new" onClick={this.props.onSearchNotes} ref="new">Новые </span>
             </div>
         )
-    },
-    AddClassActive: function () {
-        var refs = this.refs;
+    }
+    AddClassActive() {
+        let refs = this.refs;
         for (var key in refs) {
             if (key == this.props.searchState) {
                 refs[key].classList.add('selected');
@@ -24,16 +24,18 @@ var Search = React.createClass({
             }
         }
     }
-});
+}
 
-var Item = React.createClass({
-    componentDidMount: function () {
+class Item extends React.Component{
+    componentDidMount() {
         this.addClassActive();
-    },
-    componentDidUpdate: function () {
+    }
+
+    componentDidUpdate() {
         this.addClassActive();
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <li className="note" ref="note">
                 <div className="change-state" onClick={this.props.onSetNotes}>Выполнить
@@ -41,21 +43,22 @@ var Item = React.createClass({
                 <div className="note-text">{this.props.children}</div>
             </li>
         )
-    },
-    addClassActive: function () {
+    }
+
+    addClassActive() {
         if (this.props.stateNote == 'old')
             this.refs.note.classList.add('active');
     }
-});
+}
 
-var List = React.createClass({
-    render: function () {
-        var setNotes = this.props.setNotesState;
+class List extends React.Component{
+    render() {
+        let setNotes = this.props.setNotesState;
         return (
             <div className="note-list">
                 <ul>
                     {
-                        this.props.notes.map(function (el) {
+                        this.props.notes.map(el => {
                             return (
                                 <Item
                                     key={el.id}
@@ -70,25 +73,30 @@ var List = React.createClass({
             </div>
         )
     }
-});
+}
 
-var ItemAdd = React.createClass({
-    getInitialState: function () {
-        return {
+class ItemAdd extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
             text: ''
-        }
-    },
-    handleChangeText: function (e) {
-        var text = e.target.value;
+        };
+        this.handleChangeText = this.handleChangeText.bind(this);
+        this.handleAddNote = this.handleAddNote.bind(this);
+    }
+
+    handleChangeText(e) {
+        const text = e.target.value;
         this.setState({
             text: text
         })
-    },
-    handleAddNote: function () {
+    }
+
+    handleAddNote() {
         if(!this.state.text.trim())
             return;
 
-        var newNote = {
+        const newNote = {
             note: this.state.text,
             state: 'new',
             id: Date.now()
@@ -97,8 +105,9 @@ var ItemAdd = React.createClass({
         this.setState({
             text: ''
         })
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div className="item-add">
                 <textarea
@@ -113,32 +122,39 @@ var ItemAdd = React.createClass({
 
         )
     }
-});
+}
 
-var ListApp = React.createClass({
-    getInitialState: function () {
-        return {
+class ListApp extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
             notes: [],
             state: 'all'
-        }
-    },
-    handleNewNote: function (newNote) {
-        var newNotes = this.state.notes.slice();
+        };
+        this.handleNewNote = this.handleNewNote.bind(this);
+        this.setNote = this.setNote.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+
+    handleNewNote(newNote) {
+        let newNotes = this.state.notes.slice();
         newNotes.unshift(newNote);
         this.setState({
             notes: newNotes
         }, this.updateData);
 
-    },
-    componentDidMount: function () {
-        var localNotes = JSON.parse(localStorage.getItem('list'));
+    }
+
+    componentDidMount() {
+        const localNotes = JSON.parse(localStorage.getItem('list'));
         if (localNotes) {
             this.setState({notes: localNotes});
         }
-    },
-    setNote: function (note) {
-        var localNotes = JSON.parse(localStorage.getItem('list'));
-        localNotes.forEach(function (el) {
+    }
+
+    setNote(note) {
+        let localNotes = JSON.parse(localStorage.getItem('list'));
+        localNotes.forEach(el => {
             if (el.id == note.id) {
                 el.state = 'old';
             }
@@ -146,23 +162,26 @@ var ListApp = React.createClass({
         this.setState({
             notes: localNotes
         }, this.updateData);
-    },
-    updateData: function () {
-        var notes = JSON.stringify(this.state.notes);
+    }
+
+    updateData() {
+        const notes = JSON.stringify(this.state.notes);
         localStorage.setItem('list', notes);
-    },
-    handleSearch: function (e) {
-        var param = e.target.getAttribute('data-value');
-        var localNotes = JSON.parse(localStorage.getItem('list'));
-        var newNotes = localNotes.filter(function (el) {
+    }
+
+    handleSearch(e) {
+        let param = e.target.getAttribute('data-value');
+        let localNotes = JSON.parse(localStorage.getItem('list'));
+        let newNotes = localNotes.filter(el => {
             if (param == 'all')
                 return el.state;
             return el.state == param;
         });
 
         this.setState({notes: newNotes, state: param})
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div className="list-app">
                 <ItemAdd onAddNote={this.handleNewNote}/>
@@ -175,7 +194,7 @@ var ListApp = React.createClass({
             </div>
         )
     }
-});
+}
 
 ReactDOM.render(
     <ListApp/>,
