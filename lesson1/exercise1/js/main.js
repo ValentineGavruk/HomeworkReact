@@ -1,4 +1,4 @@
-var DataArticle = {
+const DataArticle = {
     title: 'Article',
     autor: 'Vasya',
     text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti" +
@@ -10,8 +10,8 @@ var DataArticle = {
     "reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
 };
 
-var Article = React.createClass({
-    render: function () {
+class Article extends React.Component{
+    render () {
         return (
         <table>
             <tr>
@@ -27,7 +27,7 @@ var Article = React.createClass({
         </table>
         )
     }
-});
+};
 
 ReactDOM.render(
     <Article/>,
