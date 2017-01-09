@@ -1,29 +1,33 @@
-var Timer = React.createClass({
-    getInitialState: function () {
-        return {
+class Timer extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
             second: 0,
             isPause: true
-        }
-    },
-    tick: function () {
+        };
+        this.start = this.start.bind(this);
+        this.restart = this.restart.bind(this);
+        this.tick = this.tick.bind(this);
+    }
+    tick() {
         if(this.state.isPause)
             return;
         this.setState({
             second: this.state.second + 1
         })
-    },
-    componentDidMount: function () {
+    }
+    componentDidMount() {
         this.timer = setInterval(this.tick, 1000);
-    },
-    componentWillMount: function () {
+    }
+    componentWillMount() {
         clearInterval(this.timer);
-    },
-    restart: function () {
+    }
+    restart() {
         this.setState({
             second: 0
         })
-    },
-    start: function () {
+    }
+    start() {
         if(!this.state.isPause){
             this.refs.start.innerText = 'Старт';
             this.setState({
@@ -36,8 +40,8 @@ var Timer = React.createClass({
             })
         }
 
-    },
-    render: function () {
+    }
+    render() {
         return(
                 <div>
                     <button onClick={this.start} ref={'start'}>Старт</button>
@@ -46,7 +50,7 @@ var Timer = React.createClass({
                 </div>
             )
     }
-});
+}
 
 
 ReactDOM.render(
