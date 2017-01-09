@@ -1,4 +1,4 @@
-var CONTACTS = [
+const CONTACTS = [
     {
         id: 1,
         name: 'Darth Vader',
@@ -30,30 +30,29 @@ var CONTACTS = [
     }
 ];
 
-var ContactList = React.createClass({
-    getInitialState: function () {
-        return {
-            displayedContacts: CONTACTS
-        };
-    },
-    handleSearch: function (e) {
-        var searchQuery = e.target.value.toLowerCase();
-        var displayedContacts = CONTACTS.filter(function (el) {
+class ContactList extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {displayedContacts: CONTACTS};
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+    handleSearch(e) {
+        let searchQuery = e.target.value.toLowerCase();
+        let displayedContacts = CONTACTS.filter( el => {
             var searchValue = el.name.toLowerCase();
             return searchValue.indexOf(searchQuery) != -1;
         });
         this.setState({
             displayedContacts: displayedContacts
         })
-    },
-    render: function () {
-
+    }
+    render() {
         return (
             <div className="contacts">
                 <input type="text" className="search-field" onChange={this.handleSearch}/>
                 <ul className="contacts-list">
                     {
-                        this.state.displayedContacts.map(function (el) {
+                        this.state.displayedContacts.map(el => {
                             return <Contact
                                 key={el.id}
                                 name={el.name}
@@ -67,15 +66,15 @@ var ContactList = React.createClass({
                 </ul>
             </div>)
     }
-});
+}
 
-var Contact = React.createClass({
-    getInitialState: function () {
-        return {
-            isOpen: false
-        };
-    },
-    handleClick: function (e) {
+class Contact extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {isOpen: false};
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick(e) {
         e.preventDefault();
 
         if (!this.state.isOpen) {
@@ -90,8 +89,8 @@ var Contact = React.createClass({
             isOpen: false
         })
 
-    },
-    render: function () {
+    }
+    render() {
         if (this.state.isOpen) {
             return (
                 <li className="contact" onClick={this.handleClick}>
@@ -110,7 +109,7 @@ var Contact = React.createClass({
             <div className="contact-number">{this.props.phoneNumber}</div>
         </li>)
     }
-});
+}
 
 ReactDOM.render(
     <ContactList/>,
